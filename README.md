@@ -7,6 +7,15 @@ This project creates a proxy that receives subscription events from Octopus and 
 * `SLACK_URL`: The Slack webhook URL
 * `SLACK_CHANNEL`: The Slack channel
 
+# Project configuration
+
+Projects associated with the subscription events can opt out of further processing by defining a variable called
+`DemoSpaceCreator.Monitoring.Disabled` and setting it to `False`. The subscription listener will attempt to query
+the Octopus API to find this variable for each project mentioned in an event.
+
+If the Octopus API request fails (either the credentials were not set up or the user associated with the API key
+can not query the project's variables), the listener will assume the project has opted-in.
+
 # Interfaces
 
 This app can be built either as a web app accepting POST requests to http://localhost:333 or an AWS Lambda. 
