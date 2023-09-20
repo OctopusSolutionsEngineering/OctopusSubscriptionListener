@@ -8,7 +8,7 @@ import (
 
 func TestHeaderParsing(t *testing.T) {
 	os.Setenv("APIKEY", "MyKey")
-	err := Authenticate(events.APIGatewayProxyRequest{
+	err := Authenticate(events.APIGatewayV2HTTPRequest{
 		Headers: map[string]string{
 			"X-OctopusSubscriptionListener-ApiKey": "MyKey",
 		},
