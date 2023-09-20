@@ -106,8 +106,8 @@ jobs:
           EOT
         shell: bash
 
-      # The SBOM package is pushed to the Octopus maven repo.
-      - name: Push SBOM Package
+      # The Lambda package is pushed to the Octopus maven repo.
+      - name: Push Lambda Package
         run: |
           mvn deploy:deploy-file \
             --batch-mode \
