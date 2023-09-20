@@ -5,8 +5,8 @@ import (
 	"net/http"
 )
 
-func LambdaResponse(status int) (events.APIGatewayProxyResponse, error) {
-	return events.APIGatewayProxyResponse{
+func LambdaResponse(status int) (events.APIGatewayV2HTTPResponse, error) {
+	return events.APIGatewayV2HTTPResponse{
 		StatusCode: status,
 		Body:       http.StatusText(status),
 	}, nil

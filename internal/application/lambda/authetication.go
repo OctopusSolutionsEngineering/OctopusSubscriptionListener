@@ -6,7 +6,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 )
 
-func Authenticate(request events.APIGatewayProxyRequest) error {
+func Authenticate(request events.APIGatewayV2HTTPRequest) error {
 	if apiKey, ok := request.Headers["X-OctopusSubscriptionListener-ApiKey"]; ok {
 		err := handlers.IsAuthenticated(apiKey)
 		if err != nil {

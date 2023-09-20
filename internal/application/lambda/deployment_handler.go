@@ -9,8 +9,8 @@ import (
 	"strings"
 )
 
-func HandleRequest(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	if strings.ToLower(request.HTTPMethod) != "post" {
+func HandleRequest(request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
+	if strings.ToLower(request.RequestContext.HTTP.Method) != "post" {
 		return LambdaResponse(405)
 	}
 
