@@ -7,9 +7,15 @@ import (
 	"go.uber.org/zap"
 	"io"
 	"net/http"
+	"strings"
 )
 
 func HandleRequest(w http.ResponseWriter, request *http.Request) {
+	if strings.ToLower(request.Method) != "post" {
+		w.WriteHeader(405)
+		return
+	}
+
 	body, err := io.ReadAll(request.Body)
 
 	if err != nil {

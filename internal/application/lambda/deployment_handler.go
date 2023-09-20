@@ -6,9 +6,14 @@ import (
 	"github.com/OctopusSolutionsEngineering/OctopusSubscriptionListener/internal/domain/handlers"
 	"github.com/aws/aws-lambda-go/events"
 	"go.uber.org/zap"
+	"strings"
 )
 
 func HandleRequest(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	if strings.ToLower(request.HTTPMethod) != "post" {
+		return LambdaResponse(405)
+	}
+
 	if Authenticate(request) != nil {
 		return LambdaResponse(401)
 	}
