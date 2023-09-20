@@ -7,7 +7,7 @@ import (
 )
 
 func Authenticate(request events.APIGatewayV2HTTPRequest) error {
-	if apiKey, ok := request.Headers["X-OctopusSubscriptionListener-ApiKey"]; ok {
+	if apiKey, ok := request.Headers["x-octopussubscriptionlistener-apikey"]; ok {
 		err := handlers.IsAuthenticated(apiKey)
 		if err != nil {
 			return err
