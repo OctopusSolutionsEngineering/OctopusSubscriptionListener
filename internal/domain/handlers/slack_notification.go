@@ -6,8 +6,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/OctopusSolutionsEngineering/OctopusSubscriptionListener/internal/domain/events"
-	"github.com/OctopusSolutionsEngineering/OctopusSubscriptionListener/internal/domain/octopus"
 	"github.com/OctopusSolutionsEngineering/OctopusSubscriptionListener/internal/domain/slack"
+	"github.com/OctopusSolutionsEngineering/OctopusSubscriptionListener/internal/interface/octopus"
 	"github.com/samber/lo"
 	"net/http"
 	"os"
@@ -32,6 +32,12 @@ func PostToSlack(event events.SubscriptionEvent) error {
 		return nil
 	}
 
+	spaceName, err := octopus.GetSpaceId(event.Payload.Event.SpaceId)
+
+	if err != nil {
+		return err
+	}
+
 	enabled, err := octopus.LoggingEnabled(event.Payload.Event.SpaceId, projectId)
 
 	if err != nil {
@@ -50,8 +56,8 @@ func PostToSlack(event events.SubscriptionEvent) error {
 		Attachments: []slack.SlackMessageAttachments{
 			{
 				MrkDwnIn: []string{"pretext", "text"},
-				Pretext:  event.Payload.Event.Message,
-				Text:     "<" + os.Getenv("OCTOPUS_URL") + "/app#/" + event.Payload.Event.SpaceId + "/tasks/" + serverTask + "|Task log>",
+				Pretext:  "",
+				Text:     spaceName + ": " + event.Payload.Event.Message + "\n<" + os.Getenv("OCTOPUS_URL") + "/app#/" + event.Payload.Event.SpaceId + "/tasks/" + serverTask + "|Task log>",
 				Color:    "danger",
 			},
 		},

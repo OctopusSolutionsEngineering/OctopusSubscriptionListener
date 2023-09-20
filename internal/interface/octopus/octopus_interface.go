@@ -1,21 +1,12 @@
 package octopus
 
 import (
-	"github.com/OctopusDeploy/go-octopusdeploy/v2/pkg/client"
 	"github.com/OctopusDeploy/go-octopusdeploy/v2/pkg/variables"
-	"net/url"
-	"os"
 	"strconv"
 )
 
 func LoggingEnabled(spaceId string, projectId string) (bool, error) {
-	url, err := url.Parse(os.Getenv("OCTOPUS_URL"))
-
-	if err != nil {
-		return false, err
-	}
-
-	client, err := client.NewClient(nil, url, os.Getenv("OCTOPUS_APIKEY"), spaceId)
+	client, err := getClient(spaceId)
 
 	if err != nil {
 		return false, err
@@ -34,4 +25,20 @@ func LoggingEnabled(spaceId string, projectId string) (bool, error) {
 	disabled, err := strconv.ParseBool(vars[0].Value)
 
 	return err != nil || !disabled, nil
+}
+
+func GetSpaceId(spaceId string) (string, error) {
+	client, err := getClient(spaceId)
+
+	if err != nil {
+		return "", err
+	}
+
+	space, err := client.Spaces.GetByID(spaceId)
+
+	if err != nil {
+		return "", err
+	}
+
+	return space.Name, nil
 }
