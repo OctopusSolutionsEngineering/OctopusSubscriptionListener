@@ -24,3 +24,6 @@ main
 bootstrap
 web
 lambda
+
+dependencies.txt
+dependencyUpdates.txt
