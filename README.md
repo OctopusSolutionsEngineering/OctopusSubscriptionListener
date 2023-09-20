@@ -13,6 +13,41 @@ This app can be built either as a web app accepting POST requests to http://loca
 
 The web version is built with `go build cmd/web/web.go`, and the Lambda version is built with `go build cmd/lambda/lambda.go`.
 
+# Deployment Script
+
+The following is a sample deployment script to deploy the Lambda:
+
+```bash
+aws lambda get-function --function-name octopus-subscription-listener
+
+if [[ $? == 0 ]]
+then
+  aws lambda update-function-code \
+      --function-name octopus-subscription-listener \
+      --zip-file fileb://octopus-subscription-listener-lambda.zip
+else
+  aws lambda create-function \
+    --function-name octopus-subscription-listener \
+    --runtime provided.al2 \
+    --architectures arm64 \
+    --handler bootstrap \
+    --role arn:aws:iam::623990049154:role/octopus-subscription-listener-role \
+    --zip-file fileb://octopus-subscription-listener-lambda.zip \
+    --environment "Variables={APIKEY=#{OctopusSubscriptionListener.ApiKey},OCTOPUS_URL=#{Global.Octopus.ServerUrl},OCTOPUS_APIKEY=#{Global.Octopus.ApiKey},SLACK_URL=#{Notifications.Slack.WebhookUrl},SLACK_CHANNEL=#{Notifications.Slack.Channel.FeedDemoSpaceCreator}}"
+    
+  aws lambda add-permission \
+    --function-name create-function-url-config \
+    --action lambda:InvokeFunctionUrl \
+    --principal "*" \
+    --function-url-auth-type "NONE" \
+    --statement-id url
+    
+  aws lambda create-function-url-config \
+  	--function-name octopus-subscription-listener \
+  	--auth-type NONE
+fi
+```
+
 # Sample Payload
 
 The JSON below is a sample of the webhook data sent by Octopus.
