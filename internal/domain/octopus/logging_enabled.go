@@ -21,13 +21,7 @@ func LoggingEnabled(spaceId string, projectId string) (bool, error) {
 		return false, err
 	}
 
-	project, err := client.Projects.GetByID(projectId)
-
-	if err != nil {
-		return false, err
-	}
-
-	vars, err := client.Variables.GetByName(project.VariableSetID, "DemoSpaceCreator.Monitoring.Disabled", &variables.VariableScope{})
+	vars, err := client.Variables.GetByName(projectId, "DemoSpaceCreator.Monitoring.Disabled", &variables.VariableScope{})
 
 	if err != nil {
 		return false, err

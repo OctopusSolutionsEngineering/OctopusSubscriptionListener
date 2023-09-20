@@ -1,4 +1,4 @@
-package application
+package lambda
 
 import (
 	"github.com/aws/aws-lambda-go/events"

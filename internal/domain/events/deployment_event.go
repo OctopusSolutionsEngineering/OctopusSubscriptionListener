@@ -21,7 +21,7 @@ type SubscriptionEvent struct {
 		} `json:"Event"`
 		BatchProcessingDate time.Time `json:"BatchProcessingDate"`
 		BatchId             string    `json:"BatchId"`
-		TotalEventsInBatch  string    `json:"TotalEventsInBatch"`
-		EventNumberInBatch  string    `json:"EventNumberInBatch"`
+		TotalEventsInBatch  int       `json:"TotalEventsInBatch"`
+		EventNumberInBatch  int       `json:"EventNumberInBatch"`
 	} `json:"Payload"`
 }

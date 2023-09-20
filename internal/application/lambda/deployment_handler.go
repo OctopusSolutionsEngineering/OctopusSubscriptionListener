@@ -1,4 +1,4 @@
-package application
+package lambda
 
 import (
 	"encoding/json"
@@ -19,12 +19,14 @@ func HandleRequest(request events.APIGatewayProxyRequest) (events.APIGatewayProx
 	err := json.Unmarshal([]byte(request.Body), &subscriptionEvent)
 
 	if err != nil {
+		zap.L().Error(err.Error())
 		return LambdaResponse(400)
 	}
 
 	err = handlers.PostToSlack(subscriptionEvent)
 
 	if err != nil {
+		zap.L().Error(err.Error())
 		return LambdaResponse(500)
 	}
 
