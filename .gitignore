@@ -20,12 +20,12 @@
 # Go workspace file
 go.work
 
-main
-bootstrap
-web
-lambda
+./main
+./bootstrap
+./web
+./lambda
 
-dependencies.txt
-dependencyUpdates.txt
+./dependencies.txt
+./dependencyUpdates.txt
 
-results.xml
+./results.xml
