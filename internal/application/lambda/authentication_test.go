@@ -44,3 +44,14 @@ func TestHeaderParsingFailEmpty(t *testing.T) {
 		t.Fatalf("RAuthenication should have failed")
 	}
 }
+
+func TestHeaderParsingFailNoHeader(t *testing.T) {
+	os.Setenv("APIKEY", "MyKey")
+	err := Authenticate(events.APIGatewayV2HTTPRequest{
+		Headers: map[string]string{},
+	})
+
+	if err == nil {
+		t.Fatalf("RAuthenication should have failed")
+	}
+}
