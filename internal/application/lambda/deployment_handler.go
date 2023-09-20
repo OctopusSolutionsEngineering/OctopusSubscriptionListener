@@ -32,7 +32,7 @@ func HandleRequest(request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2H
 
 	if err != nil {
 		zap.L().Error(err.Error())
-		return LambdaResponseCustom(500, "Failed to call the Slack handler: "+err.Error())
+		return LambdaResponseCustom(500, "Failed to call the Slack handler, or failed to query Octopus API: "+err.Error())
 	}
 
 	return LambdaResponse(200)
