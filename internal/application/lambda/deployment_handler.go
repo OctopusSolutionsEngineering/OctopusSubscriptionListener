@@ -25,14 +25,14 @@ func HandleRequest(request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2H
 
 	if err != nil {
 		zap.L().Error(err.Error())
-		return LambdaResponse(400)
+		return LambdaResponseCustom(400, "Failed to decode JSON body")
 	}
 
 	err = handlers.PostToSlack(subscriptionEvent)
 
 	if err != nil {
 		zap.L().Error(err.Error())
-		return LambdaResponse(500)
+		return LambdaResponseCustom(500, "Failed to call the Slack handler: "+err.Error())
 	}
 
 	return LambdaResponse(200)
