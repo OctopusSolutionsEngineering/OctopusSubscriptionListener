@@ -1,3 +1,5 @@
+This project creates a proxy that receives subscription events from Octopus and triggers another service in response.
+
 # Environment Variables
 * `APIKEY`: The Api Key that must be sent as the `X-OctopusSubscriptionListener-ApiKey` header.
 * `OCTOPUS_URL`: The Octopus server
