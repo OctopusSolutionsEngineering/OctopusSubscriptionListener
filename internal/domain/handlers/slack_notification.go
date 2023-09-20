@@ -9,6 +9,7 @@ import (
 	"github.com/OctopusSolutionsEngineering/OctopusSubscriptionListener/internal/domain/slack"
 	"github.com/OctopusSolutionsEngineering/OctopusSubscriptionListener/internal/interface/octopus"
 	"github.com/samber/lo"
+	"go.uber.org/zap"
 	"net/http"
 	"os"
 	"strings"
@@ -35,13 +36,17 @@ func PostToSlack(event events.SubscriptionEvent) error {
 	spaceName, err := octopus.GetSpaceId(event.Payload.Event.SpaceId)
 
 	if err != nil {
-		return err
+		zap.L().Error(err.Error())
+		// Fallback to display the space ID
+		spaceName = event.Payload.Event.SpaceId
 	}
 
 	enabled, err := octopus.LoggingEnabled(event.Payload.Event.SpaceId, projectId)
 
 	if err != nil {
-		return err
+		zap.L().Error(err.Error())
+		// Assume we want to log the event
+		enabled = true
 	}
 
 	if !enabled {
